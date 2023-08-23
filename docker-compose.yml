@@ -4,8 +4,9 @@ services:
     image: postgres:15.3-alpine3.18
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=pokedex
+      - POSTGRES_PASSWORD=pokedex
+      - POSTGRES_DB=pokedex
     ports:
       - '5432:5432'
     volumes:
