@@ -1,9 +1,9 @@
 -- +goose Up
 -- +goose StatementBegin
 create table if not exists pokemon (
-    id serial, 
+    id serial primary key,
     identifier varchar(100) not null,
-    species_id int not null,
+    species_id int not null references pokemon_species,
     height int not null,
     weight int not null,
     base_experience int not null,

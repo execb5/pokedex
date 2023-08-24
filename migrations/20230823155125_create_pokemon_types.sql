@@ -1,8 +1,8 @@
 -- +goose Up
 -- +goose StatementBegin
 create table if not exists pokemon_types (
-    id serial,
-    type_id int not null,
+    id serial primary key,
+    type_id int not null references types,
     slot int not null
 );
 -- +goose StatementEnd

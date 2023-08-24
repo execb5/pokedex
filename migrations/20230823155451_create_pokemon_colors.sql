@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
 create table if not exists pokemon_colors (
-    id serial,
+    id serial primary key,
     identifier varchar(100)
 );
 -- +goose StatementEnd
