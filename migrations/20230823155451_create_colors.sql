@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-create table if not exists pokemon_colors (
+create table if not exists colors (
     id serial primary key,
     identifier varchar(100)
 );
@@ -8,5 +8,5 @@ create table if not exists pokemon_colors (
 
 -- +goose Down
 -- +goose StatementBegin
-drop table pokemon_colors;
+drop table colors;
 -- +goose StatementEnd

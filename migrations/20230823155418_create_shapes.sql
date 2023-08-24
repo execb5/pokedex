@@ -1,13 +1,12 @@
 -- +goose Up
 -- +goose StatementBegin
-create table if not exists pokemon_types (
+create table if not exists shapes (
     id serial primary key,
-    type_id int not null references types,
-    slot int not null
+    identifier varchar(100)
 );
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-drop table pokemon_types;
+drop table shapes;
 -- +goose StatementEnd
