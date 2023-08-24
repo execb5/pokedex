@@ -85,6 +85,19 @@ func parseType(values []string) models.Type {
 	return t
 }
 
+func parseShape(values []string) models.Shape {
+	id, err := strconv.Atoi(values[0])
+	if err != nil {
+		log.Fatal("Unable to parse value as integer for "+values[0], err)
+	}
+
+	t := models.Shape{
+		ID:         uint(id),
+		Identifier: values[1],
+	}
+	return t
+}
+
 func main() {
 	db := dbConfig()
 	var records [][]string
@@ -95,9 +108,9 @@ func main() {
 		db.Save(&myType)
 	}
 
-	// records = readCsvFile("data/pokemon_types.csv.csv")
-	// for _, record := range records {
-	// 	myType := parseType(record)
-	// 	db.Save(&myType)
-	// }
+	records = readCsvFile("data/pokemon_shapes.csv")
+	for _, record := range records {
+		shape := parseShape(record)
+		db.Save(&shape)
+	}
 }
