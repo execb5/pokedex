@@ -98,6 +98,19 @@ func parseShape(values []string) models.Shape {
 	return t
 }
 
+func parseColor(values []string) models.Color {
+	id, err := strconv.Atoi(values[0])
+	if err != nil {
+		log.Fatal("Unable to parse value as integer for "+values[0], err)
+	}
+
+	t := models.Color{
+		ID:         uint(id),
+		Identifier: values[1],
+	}
+	return t
+}
+
 func main() {
 	db := dbConfig()
 	var records [][]string
@@ -112,5 +125,11 @@ func main() {
 	for _, record := range records {
 		shape := parseShape(record)
 		db.Save(&shape)
+	}
+
+	records = readCsvFile("data/pokemon_colors.csv")
+	for _, record := range records {
+		color := parseColor(record)
+		db.Save(&color)
 	}
 }
