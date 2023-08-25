@@ -263,6 +263,49 @@ func parseSpecies(values []string) models.Species {
 	return t
 }
 
+func parsePokemon(values []string) models.Pokemon {
+	id, err := strconv.Atoi(values[0])
+	if err != nil {
+		log.Fatal("[pokemon][id] Unable to parse value as integer for "+values[0], err)
+	}
+	speciesId, err := strconv.Atoi(values[2])
+	if err != nil {
+		log.Fatal("[pokemon][speciesId] Unable to parse value as integer for "+values[2], err)
+	}
+	height, err := strconv.Atoi(values[3])
+	if err != nil {
+		log.Fatal("[pokemon][height] Unable to parse value as integer for "+values[3], err)
+	}
+	weight, err := strconv.Atoi(values[4])
+	if err != nil {
+		log.Fatal("[pokemon][weight] Unable to parse value as integer for "+values[4], err)
+	}
+	baseExperience, err := strconv.Atoi(values[5])
+	if err != nil {
+		log.Fatal("[pokemon][baseExperience] Unable to parse value as integer for "+values[5], err)
+	}
+	order, err := strconv.Atoi(values[6])
+	if err != nil {
+		log.Fatal("[pokemon][order] Unable to parse value as integer for "+values[6], err)
+	}
+	isDefault, err := strconv.ParseBool(values[7])
+	if err != nil {
+		log.Fatal("[pokemon][isDefault] Unable to parse value as integer for "+values[7], err)
+	}
+
+	t := models.Pokemon{
+		ID:             uint(id),
+		Identifier:     values[1],
+		SpeciesId:      uint(speciesId),
+		Height:         height,
+		Weight:         weight,
+		BaseExperience: baseExperience,
+		Order:          order,
+		IsDefault:      isDefault,
+	}
+	return t
+}
+
 func main() {
 	db := dbConfig()
 	var records [][]string
@@ -289,5 +332,11 @@ func main() {
 	for _, record := range records {
 		species := parseSpecies(record)
 		db.Save(&species)
+	}
+
+	records = readCsvFile("data/pokemon.csv")
+	for _, record := range records {
+		pokemon := parsePokemon(record)
+		db.Save(&pokemon)
 	}
 }

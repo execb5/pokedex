@@ -1,13 +1,13 @@
 package models
 
 type Pokemon struct {
-	ID             uint
+	ID             uint `gorm:"primary_key"`
 	Identifier     string
-	SpeciesId      int64
-	Height         int64
-	Weight         int64
-	BaseExperience int64
-	Order          int64
+	SpeciesId      uint
+	Height         int
+	Weight         int
+	BaseExperience int
+	Order          int
 	IsDefault      bool
 }
 
