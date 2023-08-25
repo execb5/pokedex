@@ -1,6 +1,14 @@
 # Pokedex
 
-All data is from [pokedata](https://github.com/ninjarobot/pokedata).
+## Data and Database
+
+All data and database structure are from the
+[pokedata](https://github.com/ninjarobot/pokedata) repo, but I ended up
+adding keys and changing the names a little bit. Also had to change the
+order of rows on the pokemon csv to make it easier to be inserted since
+now it has a self referencing key.
+
+### Migrations
 
 Migrations are managed using [goose](https://github.com/pressly/goose).
 
