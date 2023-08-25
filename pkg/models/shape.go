@@ -1,6 +1,6 @@
 package models
 
 type Shape struct {
-	ID         uint
+	ID         uint `gorm:"primary_key"`
 	Identifier string
 }

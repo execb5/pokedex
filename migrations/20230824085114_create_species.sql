@@ -17,6 +17,8 @@ create table if not exists species (
     has_gender_differences boolean,
     growth_rate_id int,
     forms_switchable boolean,
+    is_legendary boolean,
+    is_mythical boolean,
     "order" int,
     conquest_order int null
 );
