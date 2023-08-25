@@ -11,6 +11,7 @@ import (
 	"github.com/execb5/pokedex/pkg/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func dbConfig() *gorm.DB {
@@ -306,6 +307,28 @@ func parsePokemon(values []string) models.Pokemon {
 	return t
 }
 
+func parsePokemonTypes(values []string) models.PokemonType {
+	pokemonId, err := strconv.Atoi(values[0])
+	if err != nil {
+		log.Fatal("[pokemon][pokemonId] Unable to parse value as integer for "+values[0], err)
+	}
+	typeId, err := strconv.Atoi(values[1])
+	if err != nil {
+		log.Fatal("[pokemon][typeId] Unable to parse value as integer for "+values[1], err)
+	}
+	slot, err := strconv.Atoi(values[2])
+	if err != nil {
+		log.Fatal("[pokemon][slot] Unable to parse value as integer for "+values[2], err)
+	}
+
+	t := models.PokemonType{
+		PokemonId: uint(pokemonId),
+		TypeId:    uint(typeId),
+		Slot:      slot,
+	}
+	return t
+}
+
 func main() {
 	db := dbConfig()
 	var records [][]string
@@ -338,5 +361,11 @@ func main() {
 	for _, record := range records {
 		pokemon := parsePokemon(record)
 		db.Save(&pokemon)
+	}
+
+	records = readCsvFile("data/pokemon_types.csv")
+	for _, record := range records {
+		pokemonType := parsePokemonTypes(record)
+		db.Clauses(clause.OnConflict{DoNothing: true}).Create(&pokemonType)
 	}
 }
