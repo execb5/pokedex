@@ -71,18 +71,30 @@ func parseType(values []string) models.Type {
 	}
 	generationId, err := strconv.Atoi(values[2])
 	if err != nil {
-		log.Fatal("[type][generationId] Unable to parse value as integer for "+values[0], err)
+		log.Fatal("[type][generationId] Unable to parse value as integer for "+values[2], err)
 	}
-	damageClassId, err := strconv.Atoi(values[2])
-	if err != nil {
-		log.Fatal("[type][damageClassId] Unable to parse value as integer for "+values[0], err)
+	var damageClassId sql.NullInt64
+	if values[3] == "" {
+		damageClassId = sql.NullInt64{
+			Int64: 0,
+			Valid: false,
+		}
+	} else {
+		value, err := strconv.Atoi(values[3])
+		if err != nil {
+			log.Fatal("[type][damageClassId] Unable to parse value as integer for "+values[3], err)
+		}
+		damageClassId = sql.NullInt64{
+			Int64: int64(value),
+			Valid: true,
+		}
 	}
 
 	t := models.Type{
 		ID:            uint(id),
 		Identifier:    values[1],
 		GenerationId:  int64(generationId),
-		DamageClassId: int64(damageClassId),
+		DamageClassId: damageClassId,
 	}
 	return t
 }
