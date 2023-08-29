@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/execb5/pokedex/pkg/models"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestMain_parseType(t *testing.T) {
@@ -51,4 +52,11 @@ func TestMain_parseType(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestMain_parseShape(t *testing.T) {
+	values := []string{"0", "round"}
+	shape := parseShape(values)
+	assert.Equal(t, shape.ID, uint(0), "they should be equal")
+	assert.Equal(t, shape.Identifier, values[1], "they should be equal")
 }
