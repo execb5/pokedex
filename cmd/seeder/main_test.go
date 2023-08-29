@@ -247,3 +247,11 @@ func TestMain_parsePokemon(t *testing.T) {
 	assert.Equal(t, pokemon.Order, 1, "they should be equal")
 	assert.True(t, pokemon.IsDefault, "it should be true")
 }
+
+func TestMain_parsePokemonType(t *testing.T) {
+	values := []string{"1", "12", "1"}
+	pokemonType := parsePokemonType(values)
+	assert.Equal(t, pokemonType.PokemonId, uint(1), "they should be equal")
+	assert.Equal(t, pokemonType.TypeId, uint(12), "they should be equal")
+	assert.Equal(t, pokemonType.Slot, 1, "they should be equal")
+}

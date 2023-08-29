@@ -319,7 +319,7 @@ func parsePokemon(values []string) models.Pokemon {
 	return t
 }
 
-func parsePokemonTypes(values []string) models.PokemonType {
+func parsePokemonType(values []string) models.PokemonType {
 	pokemonId, err := strconv.Atoi(values[0])
 	if err != nil {
 		log.Fatal("[pokemon][pokemonId] Unable to parse value as integer for "+values[0], err)
@@ -377,7 +377,7 @@ func main() {
 
 	records = readCsvFile("data/pokemon_types.csv")
 	for _, record := range records {
-		pokemonType := parsePokemonTypes(record)
+		pokemonType := parsePokemonType(record)
 		db.Clauses(clause.OnConflict{DoNothing: true}).Create(&pokemonType)
 	}
 }
