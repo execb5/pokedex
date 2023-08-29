@@ -234,3 +234,16 @@ func TestMain_parseSpecies(t *testing.T) {
 		})
 	}
 }
+
+func TestMain_parsePokemon(t *testing.T) {
+	values := []string{"1", "bulbasaur", "1", "7", "69", "64", "1", "1"}
+	pokemon := parsePokemon(values)
+	assert.Equal(t, pokemon.ID, uint(1), "they should be equal")
+	assert.Equal(t, pokemon.Identifier, values[1], "they should be equal")
+	assert.Equal(t, pokemon.SpeciesId, uint(1), "they should be equal")
+	assert.Equal(t, pokemon.Height, 7, "they should be equal")
+	assert.Equal(t, pokemon.Weight, 69, "they should be equal")
+	assert.Equal(t, pokemon.BaseExperience, 64, "they should be equal")
+	assert.Equal(t, pokemon.Order, 1, "they should be equal")
+	assert.True(t, pokemon.IsDefault, "it should be true")
+}
