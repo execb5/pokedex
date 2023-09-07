@@ -3,6 +3,11 @@ package controllers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
+	"strings"
+
+	"github.com/execb5/pokedex/database"
+	"github.com/execb5/pokedex/pkg/models"
 )
 
 func PokemonShow(w http.ResponseWriter, r *http.Request) {
@@ -11,21 +16,33 @@ func PokemonShow(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := Response{
-		Message: "Hello. I'm the Pokemon show route",
-	}
-
-	jsonData, err := json.Marshal(response)
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	segments := strings.Split(r.URL.Path, "/")
+	if len(segments) < 3 {
+		http.Error(w, "Bad Request", http.StatusBadRequest)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
+	id, _ := strconv.Atoi(segments[2])
 
-	_, err = w.Write(jsonData)
-	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	db := database.GetDB()
+
+	var pokemon models.Pokemon
+	if err := db.First(&pokemon, id).Error; err != nil {
+		http.Error(w, "Not Found", http.StatusNotFound)
 		return
+	} else {
+		jsonData, err := json.Marshal(pokemon)
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+
+		_, err = w.Write(jsonData)
+		if err != nil {
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
 	}
 }

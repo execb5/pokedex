@@ -11,10 +11,13 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/execb5/pokedex/database"
 	"github.com/execb5/pokedex/pkg/router"
 )
 
 func main() {
+	database.Initialize()
+
 	for path, controllerFunc := range router.Routes() {
 		http.HandleFunc(path, controllerFunc)
 	}

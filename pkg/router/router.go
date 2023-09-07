@@ -8,7 +8,7 @@ import (
 
 func Routes() map[string]func(http.ResponseWriter, *http.Request) {
 	return map[string]func(http.ResponseWriter, *http.Request){
-		"/":        controllers.Index,
-		"/pokemon": controllers.PokemonShow,
+		"/":         controllers.Index,
+		"/pokemon/": controllers.PokemonShow,
 	}
 }
