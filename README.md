@@ -12,13 +12,17 @@ now it has a self referencing key.
 
 Migrations are managed using [goose](https://github.com/pressly/goose).
 
+#### Run all pending migrations
 ```bash
-# Run all pending migrations
-goose -dir migrations postgres "host=localhost user=pokedex password=pokedex dbname=pokedex port=5432 sslmode=disable" up
+goose -dir database/migrations postgres "host=localhost user=pokedex password=pokedex dbname=pokedex port=5432 sslmode=disable" up
+```
 
-# Reset the db running the down of every migration
-goose -dir migrations postgres "host=localhost user=pokedex password=pokedex dbname=pokedex port=5432 sslmode=disable" reset
+#### Reset the db running the down of every migration
+```bash
+goose -dir database/migrations postgres "host=localhost user=pokedex password=pokedex dbname=pokedex port=5432 sslmode=disable" reset
+```
 
-# Down the last applied migration
-goose -dir migrations postgres "host=localhost user=pokedex password=pokedex dbname=pokedex port=5432 sslmode=disable" down
+#### Down the last applied migration
+```bash
+goose -dir database/migrations postgres "host=localhost user=pokedex password=pokedex dbname=pokedex port=5432 sslmode=disable" down
 ```
