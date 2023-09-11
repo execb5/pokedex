@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/execb5/pokedex/pkg/models"
 	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -40,6 +42,20 @@ func Initialize() {
 	if err != nil {
 		panic("failed to connect to database")
 	}
+	db = database
+}
+
+func InitializeTestDB() {
+	if db != nil {
+		return
+	}
+	database, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	if err != nil {
+		panic("Failed to connect to test database")
+	}
+
+	database.AutoMigrate(&models.Pokemon{})
+
 	db = database
 }
 

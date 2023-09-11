@@ -46,3 +46,34 @@ func PokemonShow(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 }
+
+func PokemonIndex(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	pokemons := findAllPokemon()
+
+	jsonData, err := json.Marshal(pokemons)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	_, err = w.Write(jsonData)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+}
+
+func findAllPokemon() []models.Pokemon {
+	var pokemons []models.Pokemon
+	db := database.GetDB()
+	db.Find(&pokemons)
+
+	return pokemons
+}
