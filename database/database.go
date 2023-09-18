@@ -54,7 +54,9 @@ func InitializeTestDB() {
 		panic("Failed to connect to test database")
 	}
 
-	database.AutoMigrate(&models.Pokemon{})
+	if err := database.AutoMigrate(&models.Pokemon{}); err != nil {
+		panic("failed to auto migrate")
+	}
 
 	db = database
 }
