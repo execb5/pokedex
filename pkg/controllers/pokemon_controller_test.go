@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"reflect"
@@ -91,6 +92,63 @@ func TestControllers_PokemonIndex(t *testing.T) {
 			response[1].Order,
 			response[1].IsDefault,
 			response[1],
+			pikachu,
+		)
+	}
+}
+
+func TestControllers_PokemonShow(t *testing.T) {
+	database.InitializeTestDB()
+	db := database.GetDB()
+
+	pikachu := models.Pokemon{
+		ID:             25,
+		Identifier:     "pikachu",
+		SpeciesId:      25,
+		Height:         40,
+		Weight:         60,
+		BaseExperience: 112,
+		Order:          35,
+		IsDefault:      true,
+	}
+
+	db.Create(&pikachu)
+
+	t.Cleanup(func() {
+		db.Delete(&pikachu)
+	})
+
+	request, err := http.NewRequest("GET", fmt.Sprintf("/pokemon/%d", pikachu.ID), nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	responseRecorder := httptest.NewRecorder()
+	handler := http.HandlerFunc(PokemonShow)
+
+	handler.ServeHTTP(responseRecorder, request)
+
+	if status := responseRecorder.Code; status != http.StatusOK {
+		t.Errorf("Handler returned wrong status code: got %v want %v", status, http.StatusOK)
+	}
+
+	var response models.Pokemon
+	if err := json.NewDecoder(responseRecorder.Body).Decode(&response); err != nil {
+		t.Errorf("Error decoding JSON response: %v", err)
+	}
+
+	if !reflect.DeepEqual(response, pikachu) {
+		t.Errorf(
+			"models.Pokemon(%d, %s, %d, %d, %d, %d, %d, %v)=%v; want %v",
+			response.ID,
+			response.Identifier,
+			response.SpeciesId,
+			response.Height,
+			response.Weight,
+			response.BaseExperience,
+			response.Order,
+			response.IsDefault,
+			response,
 			pikachu,
 		)
 	}
