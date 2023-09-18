@@ -26,3 +26,9 @@ goose -dir database/migrations postgres "host=localhost user=pokedex password=po
 ```bash
 goose -dir database/migrations postgres "host=localhost user=pokedex password=pokedex dbname=pokedex port=5432 sslmode=disable" down
 ```
+
+## Air
+
+I've been using [Air](https://github.com/cosmtrek/air) for live
+reloading. The only change I've made to the default configuration is the
+executable name since it would've used  `main` otherwise.
