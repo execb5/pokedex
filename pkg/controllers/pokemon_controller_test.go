@@ -45,7 +45,7 @@ func TestControllers_PokemonIndex(t *testing.T) {
 		db.Delete(&pikachu)
 	})
 
-	request, err := http.NewRequest("GET", "/", nil)
+	request, err := http.NewRequest("GET", "/pokemon", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
