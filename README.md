@@ -1,5 +1,8 @@
 # Pokedex
 
+This is a toy project I've been working on to teach myself the
+[go](https://go.dev/) programming language.
+
 ## Data and Database
 
 All data and database structure are from the
