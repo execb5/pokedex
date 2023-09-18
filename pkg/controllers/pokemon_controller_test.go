@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestControllers_PokemonShow(t *testing.T) {
+func TestControllers_PokemonIndex(t *testing.T) {
 	database.InitializeTestDB()
 	db := database.GetDB()
 
