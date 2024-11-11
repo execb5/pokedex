@@ -30,21 +30,22 @@ func PokemonShow(w http.ResponseWriter, r *http.Request) {
 	if err := db.First(&pokemon, id).Error; err != nil {
 		http.Error(w, "Not Found", http.StatusNotFound)
 		return
-	} else {
-		jsonData, err := json.Marshal(pokemon)
-		if err != nil {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-
-		_, err = w.Write(jsonData)
-		if err != nil {
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
-		}
 	}
+
+	jsonData, err := json.Marshal(pokemon)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	_, err = w.Write(jsonData)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
 }
 
 func PokemonIndex(w http.ResponseWriter, r *http.Request) {
